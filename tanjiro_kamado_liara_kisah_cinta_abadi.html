@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanjiro Kamado & Liara — Kisah Cinta di Bawah Langit Wisteria</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cinzel, Playfair Display & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tanjiro: {
+                            green: '#1E5641',
+                            emerald: '#2E8B57',
+                            dark: '#121212',
+                            charcoal: '#1A1A1A',
+                            crimson: '#8B1E24',
+                            scar: '#B22222',
+                            gold: '#D4AF37',
+                            ivory: '#F8F9FA',
+                            wisteria: '#C8A2C8'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Motif Kotak-kotak (Ichimatsu) khas Haori Tanjiro */
+        .ichimatsu-pattern {
+            background-color: #121212;
+            background-image: 
+                linear-gradient(45deg, rgba(30, 86, 65, 0.22) 25%, transparent 25%), 
+                linear-gradient(-45deg, rgba(30, 86, 65, 0.22) 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, rgba(30, 86, 65, 0.22) 75%), 
+                linear-gradient(-45deg, transparent 75%, rgba(30, 86, 65, 0.22) 75%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+        }
+
+        .ichimatsu-border {
+            background-image: repeating-linear-gradient(
+                90deg,
+                #1E5641 0px,
+                #1E5641 20px,
+                #121212 20px,
+                #121212 40px
+            );
+        }
+
+        /* Efek Kaca Elegan (Glassmorphism) */
+        .glass-card {
+            background: rgba(26, 26, 26, 0.72);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Animasi Melayang Halus */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        /* Animasi Gelombang Air Halus */
+        @keyframes waterRipple {
+            0% { transform: scale(0.95); opacity: 0.6; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        .ripple-ring {
+            animation: waterRipple 3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+        }
+
+        /* Canvas Partikel Bunga Wisteria & Air */
+        #ambient-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E5641;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+    </style>
+</head>
+<body class="bg-tanjiro-dark text-tanjiro-ivory font-sans antialiased selection:bg-tanjiro-crimson selection:text-white overflow-x-hidden">
+
+    <!-- Canvas untuk Kelopak Wisteria & Cahaya Air -->
+    <canvas id="ambient-canvas"></canvas>
+
+    <!-- Dekorasi Garis Atas Khas Haori -->
+    <div class="h-2 w-full ichimatsu-border fixed top-0 left-0 z-50"></div>
+
+    <!-- Navigasi Minimalis -->
+    <nav class="fixed top-2 w-full z-40 px-4 sm:px-8 py-3">
+        <div class="max-w-5xl mx-auto glass-card rounded-full px-6 py-3 flex items-center justify-between">
+            <a href="#beranda" class="font-cinzel font-bold text-tanjiro-gold tracking-wider text-sm sm:text-base flex items-center gap-2">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-tanjiro-scar animate-pulse"></span>
+                T & L
+            </a>
+            <div class="flex items-center gap-4 sm:gap-8 text-xs sm:text-sm font-medium text-gray-300">
+                <a href="#profil" class="hover:text-tanjiro-gold transition-colors">Profil</a>
+                <a href="#kisah-kita" class="hover:text-tanjiro-gold transition-colors">Kisah Cinta</a>
+                <a href="#momen" class="hover:text-tanjiro-gold transition-colors">Janji & Kenangan</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="relative z-10">
+
+        <!-- HERO SECTION -->
+        <section id="beranda" class="min-h-screen ichimatsu-pattern flex items-center justify-center px-4 pt-24 pb-16 relative">
+            <!-- Cahaya Radial Lembut di Latar -->
+            <div class="absolute inset-0 bg-gradient-to-b from-tanjiro-dark/40 via-transparent to-tanjiro-dark pointer-events-none"></div>
+            <div class="absolute w-72 h-72 sm:w-96 sm:h-96 bg-tanjiro-emerald/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-4xl mx-auto text-center relative z-10 space-y-6">
+                <!-- Ornamen Anting Hanafuda SVG -->
+                <div class="inline-flex items-center justify-center p-3 rounded-full glass-card mb-2 animate-float">
+                    <svg class="w-10 h-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="18" y="8" width="28" height="48" rx="4" fill="#F8F9FA" stroke="#D4AF37" stroke-width="2"/>
+                        <circle cx="32" cy="24" r="8" fill="#B22222"/>
+                        <path d="M32 10V14M32 34V38M18 24H22M42 24H46M22 14L25 17M39 31L42 34M42 14L39 17M25 31L22 34" stroke="#B22222" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M18 46C24 42 40 42 46 46V52C46 54.2091 44.2091 56 42 56H22C19.7909 56 18 54.2091 18 52V46Z" fill="#1E5641"/>
+                    </svg>
+                </div>
+
+                <p class="uppercase tracking-[0.3em] text-xs sm:text-sm text-tanjiro-gold font-semibold">
+                    Catatan Takdir & Kehangatan Matahari
+                </p>
+
+                <h1 class="font-cinzel text-4xl sm:text-6xl md:text-7xl font-extrabold text-tanjiro-ivory leading-tight drop-shadow-lg">
+                    Tanjiro Kamado <br class="sm:hidden">
+                    <span class="font-playfair italic text-tanjiro-gold font-normal text-3xl sm:text-5xl mx-1">&amp;</span> 
+                    <br class="sm:hidden">Liara
+                </h1>
+
+                <p class="font-playfair italic text-lg sm:text-2xl text-gray-200 max-w-2xl mx-auto leading-relaxed">
+                    "Seperti aliran air yang menenangkan dan hangatnya mentari pagi setelah malam panjang, begitulah caramu hadir di hidupku."
+                </p>
+
+                <!-- Tombol Aksi Utama -->
+                <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button id="btn-wisteria" class="group relative px-7 py-3.5 rounded-full bg-gradient-to-r from-tanjiro-green to-tanjiro-emerald text-white font-medium shadow-lg shadow-tanjiro-green/40 hover:shadow-tanjiro-emerald/60 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-2.5 border border-tanjiro-gold/40">
+                        <span>🌸</span>
+                        <span>Kirim Bunga Wisteria untuk Tanjiro</span>
+                        <span id="wisteria-counter" class="ml-1 px-2 py-0.5 text-xs bg-tanjiro-dark/60 rounded-full text-tanjiro-gold font-bold">0</span>
+                    </button>
+
+                    <button id="btn-secret-letter" class="px-7 py-3.5 rounded-full glass-card text-tanjiro-gold hover:bg-tanjiro-crimson/30 hover:border-tanjiro-scar transition-all duration-300 font-medium flex items-center gap-2">
+                        <span>💌</span>
+                        <span>Buka Surat Rahasia</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFIL SINGKAT KEDUANYA -->
+        <section id="profil" class="py-20 px-4 sm:px-8 max-w-5xl mx-auto">
+            <div class="text-center mb-14">
+                <span class="text-tanjiro-gold text-xs uppercase tracking-[0.25em] font-semibold">Dua Jiwa Satu Tujuan</span>
+                <h2 class="font-cinzel text-3xl sm:text-4xl font-bold mt-2 text-tanjiro-ivory">Tentang Kami</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-tanjiro-scar to-transparent mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <!-- Kartu Tanjiro -->
+                <div class="glass-card rounded-3xl p-8 relative overflow-hidden group hover:border-tanjiro-emerald transition-all duration-500">
+                    <div class="absolute -right-8 -top-8 w-32 h-32 bg-tanjiro-green/30 rounded-full blur-2xl group-hover:bg-tanjiro-emerald/40 transition-all"></div>
+                    
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 rounded-2xl ichimatsu-pattern border-2 border-tanjiro-gold flex items-center justify-center shadow-inner shrink-0">
+                            <!-- Ikon Pedang Nichirin & Gelombang -->
+                            <span class="text-2xl">🌊</span>
+                        </div>
+                        <div>
+                            <h3 class="font-cinzel text-2xl font-bold text-tanjiro-ivory">Tanjiro Kamado</h3>
+                            <p class="text-xs uppercase tracking-widest text-tanjiro-emerald font-semibold">Pelindung Berhati Lembut</p>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-300 leading-relaxed text-sm sm:text-base mb-6">
+                        Pemuda dengan senyum sehangat sinar matahari dan keteguhan hati sekuat baja. Di balik bekas luka di dahinya dan warna mata merah tua yang jujur, Tanjiro selalu menempatkan kebahagiaan serta keselamatan orang yang ia cintai di atas segalanya.
+                    </p>
+
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-full bg-tanjiro-green/30 border border-tanjiro-emerald/40 text-emerald-200">Pernapasan Air & Matahari</span>
+                        <span class="px-3 py-1.5 rounded-full bg-tanjiro-crimson/30 border border-tanjiro-scar/40 text-red-200">Tulus & Penyayang</span>
+                    </div>
+                </div>
+
+                <!-- Kartu Liara -->
+                <div class="glass-card rounded-3xl p-8 relative overflow-hidden group hover:border-tanjiro-gold transition-all duration-500">
+                    <div class="absolute -right-8 -top-8 w-32 h-32 bg-tanjiro-crimson/30 rounded-full blur-2xl group-hover:bg-tanjiro-scar/40 transition-all"></div>
+                    
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-tanjiro-crimson to-tanjiro-dark border-2 border-tanjiro-gold flex items-center justify-center shadow-inner shrink-0">
+                            <!-- Ikon Bunga Wisteria -->
+                            <span class="text-2xl">🌸</span>
+                        </div>
+                        <div>
+                            <h3 class="font-cinzel text-2xl font-bold text-tanjiro-ivory">Liara</h3>
+                            <p class="text-xs uppercase tracking-widest text-tanjiro-gold font-semibold">Cahaya Penenang Jiwa</p>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-300 leading-relaxed text-sm sm:text-base mb-6">
+                        Sosok penuh kelembutan yang menjadi tempat pulang paling damai bagi Tanjiro setelah lelah bertarung. Dengan kehangatan tatapan dan kesetiaan yang tulus, Liara selalu percaya bahwa harapan akan selalu mekar seindah bunga wisteria di malam hari.
+                    </p>
+
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-full bg-tanjiro-gold/20 border border-tanjiro-gold/40 text-amber-200">Kehangatan Wisteria</span>
+                        <span class="px-3 py-1.5 rounded-full bg-tanjiro-green/30 border border-tanjiro-emerald/40 text-emerald-200">Setia & Penuh Kasih</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KISAH CINTA KITA (OUR LOVE STORY) -->
+        <section id="kisah-kita" class="py-20 px-4 sm:px-8 relative">
+            <div class="max-w-4xl mx-auto">
+                <div class="glass-card rounded-3xl p-8 sm:p-14 relative overflow-hidden">
+                    <!-- Aksen Garis Emas Sudut -->
+                    <div class="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-tanjiro-gold/50 rounded-tl-3xl pointer-events-none"></div>
+                    <div class="absolute bottom-0 right-0 w-24 h-24 border-b-2 border-r-2 border-tanjiro-gold/50 rounded-br-3xl pointer-events-none"></div>
+
+                    <div class="text-center mb-10">
+                        <span class="text-tanjiro-scar text-xs uppercase tracking-[0.25em] font-bold">Babak Demi Babak</span>
+                        <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-tanjiro-ivory mt-2">Kisah Cinta Kita</h2>
+                        <p class="font-playfair italic text-tanjiro-gold mt-2">Tentang pertemuan sederhana yang berubah menjadi keabadian</p>
+                    </div>
+
+                    <div class="space-y-8 text-gray-200 leading-relaxed text-base sm:text-lg font-light">
+                        <!-- Paragraf 1 -->
+                        <div class="relative pl-6 border-l-2 border-tanjiro-emerald">
+                            <h4 class="font-cinzel text-tanjiro-gold font-semibold text-base mb-1">I. Pertemuan di Bawah Guguran Wisteria</h4>
+                            <p>
+                                Semuanya bermula pada suatu senja yang tenang, ketika aroma bunga wisteria berembus lembut membawa rasa damai. Di sanalah Liara pertama kali menatap pemuda ber-haori kotak-kotak hijau dan hitam itu. Tidak ada kata-kata megah, hanya senyum tulus Tanjiro yang seketika membuat dunia di sekitar Liara terasa lebih hangat dan aman.
+                            </p>
+                        </div>
+
+                        <!-- Paragraf 2 -->
+                        <div class="relative pl-6 border-l-2 border-tanjiro-scar">
+                            <h4 class="font-cinzel text-tanjiro-gold font-semibold text-base mb-1">II. Kehangatan yang Meluluhkan Hari</h4>
+                            <p>
+                                Hari demi hari berlalu, Liara menyadari bahwa kekuatan terbesar Tanjiro bukan hanya pada pedangnya, melainkan pada hatinya yang begitu lembut. Cara Tanjiro mendengarkan setiap cerita, menghapus air mata di saat rapuh, dan selalu menggenggam tangan Liara dengan penuh hormat perlahan meluluhkan seluruh keraguan di hati Liara. Bersama Tanjiro, setiap luka terasa sembuh.
+                            </p>
+                        </div>
+
+                        <!-- Paragraf 3 -->
+                        <div class="relative pl-6 border-l-2 border-tanjiro-gold">
+                            <h4 class="font-cinzel text-tanjiro-gold font-semibold text-base mb-1">III. Janji di Bawah Langit Malam & Mentari Pagi</h4>
+                            <p>
+                                Di bawah langit berbintang yang sunyi hingga terbitnya fajar keemasan, keduanya mengikat janji tanpa suara: bahwa sejauh apa pun langkah kaki membawa mereka, hati mereka akan selalu saling menemukan jalan pulang. Tanjiro akan selalu menjadi perisai bagi Liara, dan Liara akan selalu menjadi cahaya tenang yang menyambut Tanjiro pulang.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tanda Tangan Puitis -->
+                    <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                        <div>
+                            <p class="font-playfair italic text-gray-400 text-sm">"Selamanya bersama, melewati musim semi hingga musim dingin."</p>
+                        </div>
+                        <div class="font-cinzel text-tanjiro-gold font-bold tracking-wider text-sm">
+                            — Tanjiro &amp; Liara
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALERI KUTIPAN ROMANTIS & MOMEN SPESIAL -->
+        <section id="momen" class="py-20 px-4 sm:px-8 max-w-5xl mx-auto">
+            <div class="text-center mb-14">
+                <span class="text-tanjiro-emerald text-xs uppercase tracking-[0.25em] font-semibold">Jejak Rasa</span>
+                <h2 class="font-cinzel text-3xl sm:text-4xl font-bold mt-2 text-tanjiro-ivory">Momen &amp; Bisikan Hati</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Momen 1 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:-translate-y-1.5 transition-transform duration-300">
+                    <div>
+                        <div class="w-10 h-10 rounded-full bg-tanjiro-green/40 flex items-center justify-center text-lg mb-4 border border-tanjiro-emerald/50">
+                            💧
+                        </div>
+                        <h3 class="font-cinzel font-bold text-tanjiro-gold text-lg mb-2">Ketenangan Air</h3>
+                        <p class="font-playfair italic text-gray-300 text-sm leading-relaxed">
+                            "Bahkan di tengah badai paling gelap sekalipun, suaramu selalu menjadi aliran air paling jernih yang menenangkan detak jantungku, Liara."
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-white/10 text-xs text-gray-400 flex justify-between">
+                        <span>Untuk Liara</span>
+                        <span class="text-tanjiro-emerald">Tanjiro</span>
+                    </div>
+                </div>
+
+                <!-- Momen 2 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:-translate-y-1.5 transition-transform duration-300 border-tanjiro-scar/40">
+                    <div>
+                        <div class="w-10 h-10 rounded-full bg-tanjiro-crimson/40 flex items-center justify-center text-lg mb-4 border border-tanjiro-scar/50">
+                            ☀️
+                        </div>
+                        <h3 class="font-cinzel font-bold text-tanjiro-gold text-lg mb-2">Hangat Mentari</h3>
+                        <p class="font-playfair italic text-gray-300 text-sm leading-relaxed">
+                            "Aku tidak pernah takut menghadapi hari esok, karena aku tahu senyum hangatmu akan selalu menungguku di ujung perjalanan."
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-white/10 text-xs text-gray-400 flex justify-between">
+                        <span>Untuk Tanjiro</span>
+                        <span class="text-tanjiro-scar">Liara</span>
+                    </div>
+                </div>
+
+                <!-- Momen 3 -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:-translate-y-1.5 transition-transform duration-300">
+                    <div>
+                        <div class="w-10 h-10 rounded-full bg-tanjiro-gold/20 flex items-center justify-center text-lg mb-4 border border-tanjiro-gold/50">
+                            ✨
+                        </div>
+                        <h3 class="font-cinzel font-bold text-tanjiro-gold text-lg mb-2">Sumpah Abadi</h3>
+                        <p class="font-playfair italic text-gray-300 text-sm leading-relaxed">
+                            "Jika aku terlahir kembali di kehidupan mana pun, aku akan tetap mencari motif haori hijau-hitam itu di antara jutaan orang."
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-white/10 text-xs text-gray-400 flex justify-between">
+                        <span>Janji Kita</span>
+                        <span class="text-tanjiro-gold">Selamanya</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 border-t border-white/10 bg-tanjiro-charcoal/90 py-10 px-4 text-center">
+        <div class="max-w-4xl mx-auto space-y-3">
+            <p class="font-cinzel text-tanjiro-gold tracking-widest text-sm font-bold">
+                TANJIRO KAMADO &amp; LIARA
+            </p>
+            <p class="text-xs text-gray-400">
+                Dibuat dengan sepenuh cinta di bawah kelopak bunga wisteria • Siap diabadikan di GitHub
+            </p>
+        </div>
+    </footer>
+
+    <!-- MODAL SURAT CINTA RAHASIA (Pengganti Alert) -->
+    <div id="secret-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-opacity duration-300">
+        <div class="glass-card max-w-lg w-full rounded-3xl p-8 relative border-2 border-tanjiro-gold/50 transform scale-95 transition-transform duration-300" id="secret-modal-content">
+            <button id="close-modal" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-tanjiro-crimson text-white flex items-center justify-center transition-colors">
+                ✕
+            </button>
+
+            <div class="text-center space-y-4">
+                <div class="inline-block p-3 rounded-full bg-tanjiro-crimson/30 border border-tanjiro-scar text-2xl">
+                    💌
+                </div>
+                <h3 class="font-cinzel text-2xl font-bold text-tanjiro-gold">Pesan Rahasia dari Tanjiro</h3>
+                <div class="w-16 h-0.5 bg-tanjiro-emerald mx-auto"></div>
+                <p class="font-playfair italic text-gray-200 text-base sm:text-lg leading-relaxed pt-2">
+                    "Liara, terima kasih sudah menjadi alasan terindah di balik setiap langkahku. Jagalah dirimu baik-baik saat aku sedang bertugas, karena saat fajar tiba, aku pasti akan selalu kembali ke sisimu. Aku mencintaimu, hari ini, esok, dan selamanya."
+                </p>
+                <p class="font-cinzel text-xs text-tanjiro-emerald uppercase tracking-widest pt-3">
+                    — Dengan seluruh hatiku, Tanjiro Kamado
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFIKASI BUNGA WISTERIA -->
+    <div id="wisteria-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-500 pointer-events-none">
+        <div class="glass-card px-5 py-3.5 rounded-2xl border border-tanjiro-emerald flex items-center gap-3 shadow-2xl">
+            <span class="text-xl">🌸</span>
+            <div>
+                <p class="text-sm font-semibold text-tanjiro-ivory">Bunga Wisteria Terkirim!</p>
+                <p class="text-xs text-gray-300" id="toast-message">Kehangatan cinta Liara sampai ke hati Tanjiro.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT INTERAKTIF & ANIMASI PARTIKEL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Setup Canvas Partikel Bunga Wisteria & Cahaya Air
+            const canvas = document.getElementById('ambient-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let width, height;
+
+            function resizeCanvas() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            class Petal {
+                constructor(burst = false, x = null, y = null) {
+                    this.reset(burst, x, y);
+                }
+
+                reset(burst = false, x = null, y = null) {
+                    this.x = x !== null ? x : Math.random() * width;
+                    this.y = y !== null ? y : (burst ? height * 0.5 : -20);
+                    this.size = Math.random() * 6 + 4;
+                    this.speedY = burst ? (Math.random() * -4 - 1) : (Math.random() * 1.2 + 0.5);
+                    this.speedX = (Math.random() - 0.5) * (burst ? 5 : 1.2);
+                    this.gravity = burst ? 0.08 : 0;
+                    this.angle = Math.random() * Math.PI * 2;
+                    this.spin = (Math.random() - 0.5) * 0.04;
+                    
+                    // Variasi warna wisteria lembut, emas, dan cahaya zamrud
+                    const colors = [
+                        'rgba(216, 180, 226, 0.65)', // Wisteria
+                        'rgba(200, 162, 200, 0.55)', // Lavender lembut
+                        'rgba(212, 175, 55, 0.45)',  // Emas lembut
+                        'rgba(46, 139, 87, 0.4)'     // Hijau Zamrud
+                    ];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                }
+
+                update() {
+                    this.speedY += this.gravity;
+                    this.y += this.speedY;
+                    this.x += this.speedX + Math.sin(this.angle) * 0.4;
+                    this.angle += this.spin;
+
+                    if (this.y > height + 20 || this.x < -30 || this.x > width + 30) {
+                        this.reset(false);
+                    }
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    // Bentuk kelopak bunga lembut
+                    ctx.ellipse(0, 0, this.size, this.size * 0.55, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            // Inisialisasi partikel awal
+            for (let i = 0; i < 45; i++) {
+                const p = new Petal();
+                p.y = Math.random() * height;
+                particles.push(p);
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+
+            // 2. Interaksi Tombol Kirim Bunga Wisteria
+            const btnWisteria = document.getElementById('btn-wisteria');
+            const counterEl = document.getElementById('wisteria-counter');
+            const toast = document.getElementById('wisteria-toast');
+            const toastMsg = document.getElementById('toast-message');
+            let count = 0;
+            let toastTimeout;
+
+            const romanticMessages = [
+                "Tanjiro tersenyum hangat menerima bunga dari Liara.",
+                "Aroma wisteria melindungi perjalanan Tanjiro hari ini.",
+                "Satu kelopak cinta lagi terkirim untuk pelindung hatimu!",
+                "Tanjiro berjanji akan segera pulang menemui Liara."
+            ];
+
+            btnWisteria.addEventListener('click', (e) => {
+                count++;
+                counterEl.textContent = count;
+
+                // Efek ledakan kelopak bunga dari posisi tombol
+                const rect = btnWisteria.getBoundingClientRect();
+                const originX = rect.left + rect.width / 2;
+                const originY = rect.top + rect.height / 2;
+
+                for (let i = 0; i < 15; i++) {
+                    if (particles.length > 130) particles.shift();
+                    particles.push(new Petal(true, originX, originY));
+                }
+
+                // Tampilkan Toast Notifikasi
+                toastMsg.textContent = romanticMessages[count % romanticMessages.length];
+                toast.classList.remove('translate-y-24', 'opacity-0');
+                
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.add('translate-y-24', 'opacity-0');
+                }, 3200);
+            });
+
+            // 3. Interaksi Modal Surat Rahasia
+            const btnSecret = document.getElementById('btn-secret-letter');
+            const secretModal = document.getElementById('secret-modal');
+            const modalContent = document.getElementById('secret-modal-content');
+            const closeModal = document.getElementById('close-modal');
+
+            function openSecretModal() {
+                secretModal.classList.remove('hidden');
+                secretModal.classList.add('flex');
+                setTimeout(() => {
+                    modalContent.classList.remove('scale-95');
+                    modalContent.classList.add('scale-100');
+                }, 10);
+            }
+
+            function hideSecretModal() {
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    secretModal.classList.add('hidden');
+                    secretModal.classList.remove('flex');
+                }, 200);
+            }
+
+            btnSecret.addEventListener('click', openSecretModal);
+            closeModal.addEventListener('click', hideSecretModal);
+            secretModal.addEventListener('click', (e) => {
+                if (e.target === secretModal) hideSecretModal();
+            });
+        });
+    </script>
+</body>
+</html>
